@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   // images: {
   //   domains: ["placehold.co"]
   // }
+  compiler: {
+    styledComponents: true
+  },
   async redirects() {
     return [
       {
