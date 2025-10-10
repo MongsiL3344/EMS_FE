@@ -7,6 +7,9 @@ export const SignUpContainer = styled.div`
   display: flex;
   flex-direction: column;
   background-color: #f6f7f8;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 `;
 
 export const SignUpWrapper = styled.div`
@@ -16,18 +19,24 @@ export const SignUpWrapper = styled.div`
   flex-grow: 1;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  padding: 3rem 1rem;
+  /* padding: 3rem 0.5rem;
 
   @media (min-width: 640px) {
-    padding: 3rem 1.5rem;
+    padding: 3rem 1rem;
   }
 
   @media (min-width: 1024px) {
-    padding: 3rem 2rem;
-  }
+    padding: 3rem 1.5rem;
+  } */
+`;
+
+export const TitleWrapper = styled.div`
+  text-align: center;
+  margin-bottom: 2rem;
 `;
 
 export const Title = styled.h2`
@@ -44,7 +53,7 @@ export const SubTitle = styled.p`
 
 export const FormCard = styled.div`
   background-color: #fff;
-  padding: 2rem;
+  padding: 2rem 1.75rem;
   border-radius: 1.5rem;
   box-shadow:
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
@@ -79,6 +88,7 @@ export const FormInput = styled.input`
   border: 1px solid #d1d5db;
   border-radius: 0.5rem;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  background: none;
   font-size: 0.875rem;
   margin-right: 0.5rem;
   color: #111827;
@@ -95,6 +105,7 @@ export const FormInput = styled.input`
 `;
 
 export const SingleInput = styled(FormInput)`
+  margin-top: 0.25rem;
   margin-right: 0;
 `;
 
@@ -138,7 +149,7 @@ export const SubmitButton = styled.button`
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   padding: 0.75rem 1rem;
   border: none;
   font-size: 0.875rem;
