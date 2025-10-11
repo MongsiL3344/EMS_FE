@@ -187,3 +187,47 @@ export const SignUpLinkText = styled.a`
     color: rgba(17, 147, 212, 0.9);
   }
 `;
+
+export const SignUpWayButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+`;
+
+export const ButtonGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 49%;
+`;
+
+export const SelectButton = styled.button<{ active?: boolean }>`
+  width: 100%;
+  text-align: center;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid ${({ active }) => (active ? "#1069f9" : "#d1d5db")};
+  background-color: ${({ active }) => (active ? "#1069f9" : "#ffffff")};
+  color: ${({ active }) => (active ? "#ffffff" : "#1f2937")};
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Noto Sans KR", sans-serif;
+  margin-bottom: 0.5rem;
+
+  &:hover {
+    border-color: ${({ active }) => (active ? "#1069f9" : "#9ca3af")};
+    background-color: ${({ active }) => (active ? "#1069f9" : "#f9fafb")};
+  }
+`;
+
+export const Description = styled.p`
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+  padding: 0 0.25rem;
+  text-align: center;
+  font-family: "Noto Sans KR", sans-serif;
+`;

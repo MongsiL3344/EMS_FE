@@ -1,6 +1,8 @@
 "use client";
 
 import {
+  ButtonGroup,
+  Description,
   FormButton,
   FormCard,
   FormInput,
@@ -8,9 +10,11 @@ import {
   FormTitle,
   FormWrapper,
   InputHelpText,
+  SelectButton,
   SignUpContainer,
   SignUpFootText,
   SignUpLinkText,
+  SignUpWayButtonWrapper,
   SignUpWrapper,
   SingleInput,
   SubmitButton,
@@ -28,6 +32,16 @@ export default function SignUpScreen() {
           <SubTitle>물품 관리 시스템 이용 계정 생성 단계입니다.</SubTitle>
         </TitleWrapper>
         <FormCard>
+          <SignUpWayButtonWrapper>
+            <ButtonGroup>
+              <SelectButton>자동가입</SelectButton>
+              <Description>지정된 이메일</Description>
+            </ButtonGroup>
+            <ButtonGroup>
+              <SelectButton>수동가입</SelectButton>
+              <Description>지정된 이메일</Description>
+            </ButtonGroup>
+          </SignUpWayButtonWrapper>
           <FormWrapper>
             <FormTitle>이메일 주소</FormTitle>
             <FormRow>
