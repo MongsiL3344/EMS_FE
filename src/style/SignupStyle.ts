@@ -36,7 +36,7 @@ export const SignUpWrapper = styled.div`
 
 export const TitleWrapper = styled.div`
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `;
 
 export const Title = styled.h2`
@@ -205,7 +205,7 @@ export const ButtonGroup = styled.div`
 export const SelectButton = styled.button<{ active?: boolean }>`
   width: 100%;
   text-align: center;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 1rem;
   border-radius: 0.75rem;
   border: 1px solid ${({ active }) => (active ? "#1069f9" : "#d1d5db")};
   background-color: ${({ active }) => (active ? "#1069f9" : "#ffffff")};
@@ -215,7 +215,7 @@ export const SelectButton = styled.button<{ active?: boolean }>`
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: "Noto Sans KR", sans-serif;
-  margin-bottom: 0.5rem;
+  /* margin-bottom: 0.5rem; */
 
   &:hover {
     border-color: ${({ active }) => (active ? "#1069f9" : "#9ca3af")};

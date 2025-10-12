@@ -35,11 +35,11 @@ export default function SignUpScreen() {
           <SignUpWayButtonWrapper>
             <ButtonGroup>
               <SelectButton>자동가입</SelectButton>
-              <Description>지정된 이메일</Description>
+              <Description>지정된 조직 이메일을 이용</Description>
             </ButtonGroup>
             <ButtonGroup>
               <SelectButton>수동가입</SelectButton>
-              <Description>지정된 이메일</Description>
+              <Description>관리자 승인 요청</Description>
             </ButtonGroup>
           </SignUpWayButtonWrapper>
           <FormWrapper>
@@ -103,7 +103,8 @@ export default function SignUpScreen() {
           </FormWrapper>
           <SubmitButton type="button">회원가입 신청</SubmitButton>
           <SignUpFootText>
-            이미 계정이 존재하나요? <SignUpLinkText>로그인</SignUpLinkText>{" "}
+            이미 계정이 존재하나요?
+            <SignUpLinkText href="/login">로그인</SignUpLinkText>
           </SignUpFootText>
         </FormCard>
       </SignUpWrapper>
