@@ -231,3 +231,49 @@ export const Description = styled.p`
   text-align: center;
   font-family: "Noto Sans KR", sans-serif;
 `;
+
+export const SuccessCard = styled(FormCard)`
+  width: 100%;
+  max-width: 28rem;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 1.5rem;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+`;
+
+export const SuccessSubText = styled(SubTitle)`
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: #4b5563;
+  line-height: 1.5;
+`;
+
+export const SucessButton = styled(SelectButton)`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #1173d4;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: rgba(17, 115, 212, 0.9);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow:
+      0 0 0 2px #ffffff,
+      0 0 0 4px #1173d4;
+  }
+`;
