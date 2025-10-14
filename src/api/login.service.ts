@@ -1,5 +1,5 @@
 // api/login.service.ts
-import { axiosInstance } from "./axiosInstance";
+import {axiosInstance} from "./axiosInstance";
 
 export type LoginPayload = { email: string; password: string };
 export type UserResponse = {
@@ -7,6 +7,6 @@ export type UserResponse = {
 };
 
 export async function login(data: LoginPayload) {
-  const res = await axiosInstance.post<UserResponse>("/login", data);
+  const res = await axiosInstance.post<UserResponse>("api/login", data);
   return res.data; // { ok: true/false; user: email ; message: "~"}
 }

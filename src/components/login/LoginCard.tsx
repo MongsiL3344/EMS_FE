@@ -2,8 +2,8 @@ import React, {FormEvent, useState} from "react";
 import styled from "styled-components";
 import Button from "@/components/login/Button";
 import TextField from "@/components/login/TextField";
-import {axiosInstance} from "@/api/axiosInstance";
-import toast, {Toaster} from 'react-hot-toast';
+import {Toaster} from 'react-hot-toast';
+import {loginHandler} from "@/api/loginHandler";
 
 const PageCenter = styled.div`
   min-height: 100vh;
@@ -71,30 +71,12 @@ const BottomNote = styled.div`
 export default function LoginCard() {
   const [loading, setLoading] = useState(false);
 
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-
-    const formData = new FormData(e.currentTarget);
-    const email = String(formData.get("email") ?? "");
-    const password = String(formData.get("password") ?? "");
-
-    try {
-      await axiosInstance.post("/api/login", {email, password});
-      toast.success(`로그인 성공: ${email}`);
-    } catch {
-      toast.error(`로그인 실패: ${email}`);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
       <PageCenter>
         <Card role="region" aria-labelledby="login-title">
           <Title id="login-title">로그인</Title>
 
-          <Form onSubmit={onSubmit}>
+          <Form onSubmit={(e) => loginHandler(e, setLoading)}>
             <TextField
                 name="email"
                 type="email"
