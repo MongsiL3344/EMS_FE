@@ -22,8 +22,27 @@ import {
   Title,
   TitleWrapper
 } from "@/style/SignupStyle";
+import { SignupInterface } from "@/types/SignupInterface";
+import { useEffect, useState } from "react";
 
 export default function SignUpScreen() {
+  const [userinfo, setUserInfo] = useState<SignupInterface>({
+    email: "",
+    pw: "",
+    name: "",
+    dept: "",
+    team: "",
+    position: ""
+  });
+  const [registerWay, setRegisterWay] = useState<number>(0); // 1 automatic, 2 manual
+  const [code, setCode] = useState<string>("");
+  const [samePw, setSamePw] = useState<string>("");
+
+  useEffect(() => {
+    console.log(userinfo);
+    return () => {};
+  }, [userinfo]);
+
   return (
     <SignUpContainer>
       <SignUpWrapper>
@@ -34,18 +53,39 @@ export default function SignUpScreen() {
         <FormCard>
           <SignUpWayButtonWrapper>
             <ButtonGroup>
-              <SelectButton>자동가입</SelectButton>
+              <SelectButton
+                active={registerWay === 1 ? true : false}
+                onClick={() => {
+                  setRegisterWay(1);
+                }}
+              >
+                자동가입
+              </SelectButton>
               <Description>지정된 조직 이메일을 이용</Description>
             </ButtonGroup>
             <ButtonGroup>
-              <SelectButton>수동가입</SelectButton>
+              <SelectButton
+                active={registerWay === 2 ? true : false}
+                onClick={() => {
+                  setRegisterWay(2);
+                }}
+              >
+                수동가입
+              </SelectButton>
               <Description>관리자 승인 요청</Description>
             </ButtonGroup>
           </SignUpWayButtonWrapper>
           <FormWrapper>
             <FormTitle>이메일 주소</FormTitle>
             <FormRow>
-              <FormInput type="email" placeholder="user@company.email" />
+              <FormInput
+                type="email"
+                value={userinfo.email}
+                onChange={(e) => {
+                  setUserInfo({ ...userinfo, email: e.target.value });
+                }}
+                placeholder="user@company.email"
+              />
               <FormButton type="button">인증번호 발송</FormButton>
             </FormRow>
           </FormWrapper>
@@ -61,6 +101,10 @@ export default function SignUpScreen() {
             <FormRow>
               <SingleInput
                 type="password"
+                value={userinfo.pw}
+                onChange={(e) => {
+                  setUserInfo({ ...userinfo, pw: e.target.value });
+                }}
                 placeholder="비밀번호를 입력하세요"
               />
             </FormRow>
@@ -73,6 +117,10 @@ export default function SignUpScreen() {
             <FormRow>
               <SingleInput
                 type="password"
+                value={samePw}
+                onChange={(e) => {
+                  setSamePw(e.target.value);
+                }}
                 placeholder="입력하신 비밀번호를 확인해주세요"
               />
             </FormRow>
@@ -80,25 +128,53 @@ export default function SignUpScreen() {
           <FormWrapper>
             <FormTitle>이름</FormTitle>
             <FormRow>
-              <SingleInput type="text" placeholder="이름을 입력하세요" />
+              <SingleInput
+                type="text"
+                value={userinfo.name}
+                onChange={(e) => {
+                  setUserInfo({ ...userinfo, name: e.target.value });
+                }}
+                placeholder="이름을 입력하세요"
+              />
             </FormRow>
           </FormWrapper>
           <FormWrapper>
             <FormTitle>부서</FormTitle>
             <FormRow>
-              <SingleInput type="text" placeholder="예: 개발부" />
+              <SingleInput
+                type="text"
+                value={userinfo.dept}
+                onChange={(e) => {
+                  setUserInfo({ ...userinfo, dept: e.target.value });
+                }}
+                placeholder="예: 개발부"
+              />
             </FormRow>
           </FormWrapper>
           <FormWrapper>
             <FormTitle>팀</FormTitle>
             <FormRow>
-              <SingleInput type="text" placeholder="예: 프론트엔드팀" />
+              <SingleInput
+                type="text"
+                value={userinfo.team}
+                onChange={(e) => {
+                  setUserInfo({ ...userinfo, team: e.target.value });
+                }}
+                placeholder="예: 프론트엔드팀"
+              />
             </FormRow>
           </FormWrapper>
           <FormWrapper>
             <FormTitle>직책</FormTitle>
             <FormRow>
-              <SingleInput type="text" placeholder="예: 선임 연구원" />
+              <SingleInput
+                type="text"
+                value={userinfo.position}
+                onChange={(e) => {
+                  setUserInfo({ ...userinfo, position: e.target.value });
+                }}
+                placeholder="예: 선임 연구원"
+              />
             </FormRow>
           </FormWrapper>
           <SubmitButton type="button">회원가입 신청</SubmitButton>
