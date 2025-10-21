@@ -1,5 +1,6 @@
 "use client";
 
+import { SendEmailCode, SignupApi } from "@/api/SignupService";
 import {
   ButtonGroup,
   Description,
@@ -86,7 +87,14 @@ export default function SignUpScreen() {
                 }}
                 placeholder="user@company.email"
               />
-              <FormButton type="button">인증번호 발송</FormButton>
+              <FormButton
+                type="button"
+                onClick={() => {
+                  SendEmailCode(userinfo.email);
+                }}
+              >
+                인증번호 발송
+              </FormButton>
             </FormRow>
           </FormWrapper>
           <FormWrapper>
@@ -177,7 +185,14 @@ export default function SignUpScreen() {
               />
             </FormRow>
           </FormWrapper>
-          <SubmitButton type="button">회원가입 신청</SubmitButton>
+          <SubmitButton
+            type="button"
+            onClick={() => {
+              SignupApi(userinfo);
+            }}
+          >
+            회원가입 신청
+          </SubmitButton>
           <SignUpFootText>
             이미 계정이 존재하나요?
             <SignUpLinkText href="/login">로그인</SignUpLinkText>

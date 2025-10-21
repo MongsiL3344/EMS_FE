@@ -1,0 +1,25 @@
+import { axiosInstance } from "./axiosInstance";
+
+export async function SignupApi(data: any) {
+  console.log("api on", data);
+  try {
+    const res = await axiosInstance.post("api/signup", data).then((res) => {
+      console.log("res : ", res.data);
+    });
+  } catch (err) {
+    console.log("err : ", err);
+  }
+}
+
+export async function SendEmailCode(email: any) {
+  console.log("api on", email);
+  try {
+    const res = await axiosInstance
+      .post("api/send-code", { email: email })
+      .then((res) => {
+        console.log("res : ", res.data);
+      });
+  } catch (err) {
+    console.log("err : ", err);
+  }
+}
