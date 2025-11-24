@@ -55,7 +55,7 @@ export default function SignUpScreen() {
           <SignUpWayButtonWrapper>
             <ButtonGroup>
               <SelectButton
-                active={registerWay === 1 ? true : false}
+                $active={registerWay === 1 ? true : false}
                 onClick={() => {
                   setRegisterWay(1);
                 }}
@@ -66,7 +66,7 @@ export default function SignUpScreen() {
             </ButtonGroup>
             <ButtonGroup>
               <SelectButton
-                active={registerWay === 2 ? true : false}
+                $active={registerWay === 2 ? true : false}
                 onClick={() => {
                   setRegisterWay(2);
                 }}

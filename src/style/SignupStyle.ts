@@ -202,14 +202,14 @@ export const ButtonGroup = styled.div`
   width: 49%;
 `;
 
-export const SelectButton = styled.button<{ active?: boolean }>`
+export const SelectButton = styled.button<{ $active?: boolean }>`
   width: 100%;
   text-align: center;
   padding: 0.5rem 1rem;
   border-radius: 0.75rem;
-  border: 1px solid ${({ active }) => (active ? "#1069f9" : "#d1d5db")};
-  background-color: ${({ active }) => (active ? "#1069f9" : "#ffffff")};
-  color: ${({ active }) => (active ? "#ffffff" : "#1f2937")};
+  border: 1px solid ${({ $active }) => ($active ? "#1069f9" : "#d1d5db")};
+  background-color: ${({ $active }) => ($active ? "#1069f9" : "#ffffff")};
+  color: ${({ $active }) => ($active ? "#ffffff" : "#1f2937")};
   font-weight: 500;
   font-size: 1rem;
   cursor: pointer;
@@ -218,8 +218,8 @@ export const SelectButton = styled.button<{ active?: boolean }>`
   /* margin-bottom: 0.5rem; */
 
   &:hover {
-    border-color: ${({ active }) => (active ? "#1069f9" : "#9ca3af")};
-    background-color: ${({ active }) => (active ? "#1069f9" : "#f9fafb")};
+    border-color: ${({ $active }) => ($active ? "#1069f9" : "#9ca3af")};
+    background-color: ${({ $active }) => ($active ? "#1069f9" : "#f9fafb")};
   }
 `;
 
