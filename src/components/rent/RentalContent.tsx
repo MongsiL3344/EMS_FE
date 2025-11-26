@@ -31,7 +31,7 @@ export default function RentalContent({items}: { items: RentableItem[] }) {
   const {handleSessionButton} = useCheckSession();
   const [searchInput, setSearchInput] = useState<string>(""); // 이름으로 검색
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL"); // 카테고리
-  const [visibleCount, setVisibleCount] = useState<number>(10); // 현재 보이는 물품 개수
+  const [visibleCount, setVisibleCount] = useState<number>(9); // 현재 보이는 물품 개수
 
   /**
    *  존재하는 물품의 카테고리의 목록을 뽑아서 배열로 만듦
@@ -89,7 +89,7 @@ export default function RentalContent({items}: { items: RentableItem[] }) {
    */
   const onChangeSearch: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setSearchInput(e.target.value);
-    setVisibleCount(10);
+    setVisibleCount(9);
   };
 
   /**
@@ -98,7 +98,7 @@ export default function RentalContent({items}: { items: RentableItem[] }) {
    */
   const onChangeCategory: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
     setSelectedCategory(e.target.value);
-    setVisibleCount(10);
+    setVisibleCount(9);
   };
 
   return (

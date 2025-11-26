@@ -11,7 +11,7 @@ import type {
 export const PageLayout = styled.div`
   display: flex;
   min-height: 100vh;
-  background: ${({ theme }) => theme.colors.background};
+  background: ${({theme}) => theme.colors.background};
 `;
 
 export const ContentArea = styled.div`
@@ -32,7 +32,7 @@ export const MainContainer = styled.main`
 export const PageTitle = styled.h2`
   font-size: 1.875rem;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({theme}) => theme.colors.text};
   margin-bottom: 24px;
 `;
 
@@ -46,9 +46,8 @@ export const LoadMoreButton = styled.button`
   font-size: 0.875rem;
   font-weight: 800;
   cursor: pointer;
-  transition:
-    background-color 0.15s ease,
-    color 0.15s ease;
+  transition: background-color 0.15s ease,
+  color 0.15s ease;
 
   &:hover {
     background: rgb(226, 232, 240);
@@ -57,26 +56,26 @@ export const LoadMoreButton = styled.button`
 
 // 모든 대여 아이템 (dueDate: 남은 일수)
 export const allItems = [
-  { name: "MX Master 3", dueDate: -2 },
-  { name: "Webcam C300", dueDate: -5 },
-  { name: "MacBook Pro", dueDate: 15 },
-  { name: "iPad Air", dueDate: 100000 },
-  { name: "MacBook Pro", dueDate: 15 },
-  { name: "iPad Air", dueDate: 100000 },
-  { name: "Magic Keyboard", dueDate: 3 },
-  { name: "Monitor 27", dueDate: 20 },
-  { name: "MacBook Pro", dueDate: 15 },
-  { name: "iPad Air", dueDate: 100000 },
-  { name: "MacBook Pro", dueDate: 15 },
-  { name: "iPad Air", dueDate: 100000 },
-  { name: "Magic Keyboard", dueDate: 3 },
-  { name: "Monitor 27", dueDate: 20 },
-  { name: "MacBook Pro", dueDate: 15 },
-  { name: "iPad Air", dueDate: 100000 },
-  { name: "MacBook Pro", dueDate: 15 },
-  { name: "iPad Air", dueDate: 100000 },
-  { name: "Magic Keyboard", dueDate: 3 },
-  { name: "Monitor 27", dueDate: 20 }
+  {name: "MX Master 3", dueDate: -2},
+  {name: "Webcam C300", dueDate: -5},
+  {name: "MacBook Pro", dueDate: 15},
+  {name: "iPad Air", dueDate: 100000},
+  {name: "MacBook Pro", dueDate: 15},
+  {name: "iPad Air", dueDate: 100000},
+  {name: "Magic Keyboard", dueDate: 3},
+  {name: "Monitor 27", dueDate: 20},
+  {name: "MacBook Pro", dueDate: 15},
+  {name: "iPad Air", dueDate: 100000},
+  {name: "MacBook Pro", dueDate: 15},
+  {name: "iPad Air", dueDate: 100000},
+  {name: "Magic Keyboard", dueDate: 3},
+  {name: "Monitor 27", dueDate: 20},
+  {name: "MacBook Pro", dueDate: 15},
+  {name: "iPad Air", dueDate: 100000},
+  {name: "MacBook Pro", dueDate: 15},
+  {name: "iPad Air", dueDate: 100000},
+  {name: "Magic Keyboard", dueDate: 3},
+  {name: "Monitor 27", dueDate: 20}
 ];
 
 /**
@@ -87,7 +86,7 @@ export const HeaderContainer = styled.header`
   align-items: center;
   justify-content: space-between;
   padding: 24px;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  border-bottom: 1px solid ${({theme}) => theme.colors.border};
 `;
 
 export const Spacer = styled.div`
@@ -105,7 +104,7 @@ export const IconButton = styled.button`
   border-radius: 50%;
   border: none;
   background: transparent;
-  color: ${({ theme }) => theme.colors.subText};
+  color: ${({theme}) => theme.colors.subText};
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -124,8 +123,8 @@ export const Avatar = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.subText};
+  background: ${({theme}) => theme.colors.background};
+  color: ${({theme}) => theme.colors.subText};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -164,14 +163,13 @@ export const CardLink = styled(Link)`
 `;
 
 export const Section = styled.section<{ $c: RentalListColors }>`
-  background: ${({ $c }) => $c.bg};
-  border: 1px solid ${({ $c }) => $c.border};
+  background: ${({$c}) => $c.bg};
+  border: 1px solid ${({$c}) => $c.border};
   border-radius: 12px;
   padding: 16px;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-  transition:
-    transform 0.08s ease,
-    box-shadow 0.08s ease;
+  transition: transform 0.08s ease,
+  box-shadow 0.08s ease;
   cursor: pointer;
 
   &:hover {
@@ -187,7 +185,7 @@ export const Header = styled.h3<{ $c: RentalListColors }>`
   margin: 0 0 12px;
   font-weight: 600;
   font-size: 1.125rem;
-  color: ${({ $c }) => $c.heading};
+  color: ${({$c}) => $c.heading};
 `;
 
 export const Row = styled.div`
@@ -204,7 +202,7 @@ export const ItemName = styled.span`
 `;
 
 export const Due = styled.span<{ $c: RentalListColors }>`
-  color: ${({ $c }) => $c.due};
+  color: ${({$c}) => $c.due};
   font-size: 0.875rem;
 `;
 
@@ -215,11 +213,14 @@ export const Due = styled.span<{ $c: RentalListColors }>`
 export const SidebarContainer = styled.aside`
   width: 240px;
   flex-shrink: 0;
-  background: ${({ theme }) => theme.colors.card};
+  background: ${({theme}) => theme.colors.card};
   padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100vh;
+  position: sticky;
+  top: 0;
 `;
 
 export const LogoSection = styled.div`
@@ -230,9 +231,9 @@ export const LogoSection = styled.div`
 `;
 
 export const LogoIcon = styled.div`
-  background: ${({ theme }) => theme.colors.primary};
+  background: ${({theme}) => theme.colors.primary};
   padding: 8px;
-  border-radius: ${({ theme }) => theme.radii.small};
+  border-radius: ${({theme}) => theme.radii.small};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -246,7 +247,7 @@ export const LogoIcon = styled.div`
 export const LogoText = styled.h1`
   font-size: 1.25rem;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({theme}) => theme.colors.text};
 `;
 
 export const Nav = styled.nav`
@@ -260,18 +261,18 @@ export const NavItem = styled(Link)<{ $active?: boolean }>`
   align-items: center;
   gap: 12px;
   padding: 12px 16px;
-  border-radius: ${({ theme }) => theme.radii.small};
+  border-radius: ${({theme}) => theme.radii.small};
   text-decoration: none;
   font-weight: 600;
   transition: background-color 0.2s;
 
-  ${({ $active, theme }) =>
-    $active
-      ? `
+  ${({$active, theme}) =>
+      $active
+          ? `
     background: ${theme.colors.primary};
     color: white;
     box-shadow: ${theme.shadow};`
-      : `
+          : `
     color: ${theme.colors.subText};
     &:hover {
       background: rgba(0, 0, 0, 0.05);
