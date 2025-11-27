@@ -12,15 +12,15 @@ import {
   TableContainer,
   Table,
   TableHeadRow,
+  TableHeadCellName,
   TableHeadCell,
-  TableHeadCellRight,
   TableBodyRow,
   TableBodyCell,
   TableBodyCellName,
   TableBodyCellRight,
   StatusPill,
   RentButton,
-  EmptyRow
+  EmptyRow,
 } from "@/style/RentStyle";
 import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
 import {useCheckSession} from "@/api/authHandler";
@@ -140,20 +140,13 @@ export default function RentalContent({items}: { items: RentableItem[] }) {
 
         <TableContainer>
           <Table>
-            <colgroup>
-              <col style={{width: "40%"}}/>
-              <col style={{width: "15%"}}/>
-              <col style={{width: "15%"}}/>
-              <col style={{width: "15%"}}/>
-              <col style={{width: "15%"}}/>
-            </colgroup>
             <thead>
             <TableHeadRow>
-              <TableHeadCell>물품 이름</TableHeadCell>
-              <TableHeadCell>재고 현황</TableHeadCell>
-              <TableHeadCell>상태</TableHeadCell>
-              <TableHeadCell>대여가능개수</TableHeadCell>
-              <TableHeadCellRight aria-label="작업"/>
+              <TableHeadCellName $width="40%">물품 이름</TableHeadCellName>
+              <TableHeadCell $width="15%">재고 현황</TableHeadCell>
+              <TableHeadCell $width="15%">상태</TableHeadCell>
+              <TableHeadCell $width="15%">대여가능개수</TableHeadCell>
+              <TableHeadCell $width="15%"></TableHeadCell>
             </TableHeadRow>
             </thead>
             <tbody>

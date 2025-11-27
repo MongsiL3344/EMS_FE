@@ -118,18 +118,18 @@ export const TableHeadRow = styled.tr`
   border-bottom: 1px solid #e2e8f0;
 `;
 
-export const TableHeadCell = styled.th`
+export const TableHeadCell = styled.th<{ $width?: string }>`
   padding: 16px 24px;
-  text-align: left;
+  text-align: center;
   font-weight: 500;
   color: #64748b;
   white-space: nowrap;
+  width: ${({$width}) => $width || "auto"};
 `;
 
-export const TableHeadCellRight = styled.th`
-  padding: 16px 24px;
-  text-align: right;
-  width: 120px;
+export const TableHeadCellName = styled(TableHeadCell)<{ $width?: string }>`
+  text-align: left;
+  width: ${({$width}) => $width || "auto"};
 `;
 
 export const TableBodyRow = styled.tr`
@@ -142,6 +142,7 @@ export const TableBodyRow = styled.tr`
 
 export const TableBodyCell = styled.td`
   padding: 16px 24px;
+  text-align: center;
   color: #0f172a;
 `;
 
@@ -150,6 +151,7 @@ export const TableBodyCellName = styled(TableBodyCell)`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: left;
 `;
 
 export const TableBodyCellRight = styled(TableBodyCell)`
