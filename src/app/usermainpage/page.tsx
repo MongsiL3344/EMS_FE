@@ -11,8 +11,8 @@ import {
   ContentArea,
   MainContainer,
   PageTitle,
-  LoadMoreButton
 } from "@/style/UserMainPageStyle";
+import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
 
 /* 유저 메인 페이지 컴포넌트 */
 export default function UserMainScreen() {
@@ -44,6 +44,15 @@ export default function UserMainScreen() {
   const handleLoadMore = () => {
     setVisibleRentedCount((prev) => prev + 5);
   };
+
+  /**
+   * 무한 스크롤 감시 Ref
+   */
+  const observerRef = useInfiniteScroll({
+    onIntersect: () => {
+      setVisibleRentedCount((prev) => prev + 5)
+    },
+  });
 
   return (
       <PageLayout>
@@ -83,9 +92,12 @@ export default function UserMainScreen() {
                       cardHref="/rentals"
                   />
                   {hasMoreRented && (
-                      <LoadMoreButton type="button" onClick={handleLoadMore}>
+                      <>
+                        {/*<LoadMoreButton type="button" onClick={handleLoadMore}>
                         Load More
-                      </LoadMoreButton>
+                      </LoadMoreButton>*/}
+                        <div ref={observerRef} style={{height: '10px'}}/>
+                      </>
                   )}
                 </>
             )}

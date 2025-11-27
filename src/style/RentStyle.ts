@@ -1,10 +1,10 @@
-import styled, { css } from "styled-components";
-import { RentableItem } from "@/types/RentInterface";
+import styled, {css} from "styled-components";
+import {RentableItem} from "@/types/RentInterface";
 
 export const PageLayout = styled.div`
   display: flex;
   min-height: 100vh;
-  background: ${({ theme }) => theme.colors?.background || "#f0f2f5"};
+  background: ${({theme}) => theme.colors?.background || "#f0f2f5"};
 `;
 
 export const ContentArea = styled.div`
@@ -82,15 +82,12 @@ export const CategorySelect = styled.select`
     box-shadow: 0 0 0 1px rgba(0, 122, 255, 0.2);
   }
 
-  background-image:
-    linear-gradient(45deg, transparent 50%, #64748b 50%),
-    linear-gradient(135deg, #64748b 50%, transparent 50%);
-  background-position:
-    calc(100% - 16px) 16px,
-    calc(100% - 12px) 16px;
-  background-size:
-    5px 5px,
-    5px 5px;
+  background-image: linear-gradient(45deg, transparent 50%, #64748b 50%),
+  linear-gradient(135deg, #64748b 50%, transparent 50%);
+  background-position: calc(100% - 16px) 16px,
+  calc(100% - 12px) 16px;
+  background-size: 5px 5px,
+  5px 5px;
   background-repeat: no-repeat;
 `;
 
@@ -167,16 +164,16 @@ export const StatusPill = styled.span<{ $status: boolean }>`
   font-size: 12px;
   font-weight: 600;
 
-  ${({ $status }) =>
-    $status
-      ? css`
-          background: #dcfce7;
-          color: #15803d;
-        `
-      : css`
-          background: #f8f38a;
-          color: #5c5c40;
-        `};
+  ${({$status}) =>
+      $status
+          ? css`
+            background: #dcfce7;
+            color: #15803d;
+          `
+          : css`
+            background: #f8f38a;
+            color: #5c5c40;
+          `};
 `;
 
 export const RentButton = styled.button<{ disabled?: boolean }>`
@@ -185,18 +182,18 @@ export const RentButton = styled.button<{ disabled?: boolean }>`
   font-size: 14px;
   font-weight: 600;
   border: none;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-  background: ${({ disabled }) => (disabled ? "#e5e7eb" : "#007aff")};
-  color: ${({ disabled }) => (disabled ? "#9ca3af" : "#ffffff")};
+  cursor: ${({disabled}) => (disabled ? "not-allowed" : "pointer")};
+  background: ${({disabled}) => (disabled ? "#e5e7eb" : "#007aff")};
+  color: ${({disabled}) => (disabled ? "#9ca3af" : "#ffffff")};
   transition: all 0.2s ease;
   white-space: nowrap;
 
   &:hover {
-    background: ${({ disabled }) => (disabled ? "#e5e7eb" : "#0369a1")};
+    background: ${({disabled}) => (disabled ? "#e5e7eb" : "#0369a1")};
   }
 
   &:active {
-    transform: ${({ disabled }) => (disabled ? "none" : "translateY(0)")};
+    transform: ${({disabled}) => (disabled ? "none" : "translateY(0)")};
   }
 `;
 
@@ -214,9 +211,8 @@ export const LoadMoreButton = styled.button`
   font-size: 0.875rem;
   font-weight: 800;
   cursor: pointer;
-  transition:
-    background-color 0.15s ease,
-    color 0.15s ease;
+  transition: background-color 0.15s ease,
+  color 0.15s ease;
 
   &:hover {
     background: rgb(226, 232, 240);

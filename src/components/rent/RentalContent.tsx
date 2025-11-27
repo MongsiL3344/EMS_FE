@@ -20,10 +20,9 @@ import {
   TableBodyCellRight,
   StatusPill,
   RentButton,
-  LoadMoreWrapper,
-  LoadMoreButton,
   EmptyRow
 } from "@/style/RentStyle";
+import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
 import {useCheckSession} from "@/api/authHandler";
 import type {RentableItem} from "@/types/RentInterface";
 
@@ -31,7 +30,7 @@ export default function RentalContent({items}: { items: RentableItem[] }) {
   const {handleSessionButton} = useCheckSession();
   const [searchInput, setSearchInput] = useState<string>(""); // 이름으로 검색
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL"); // 카테고리
-  const [visibleCount, setVisibleCount] = useState<number>(9); // 현재 보이는 물품 개수
+  const [visibleCount, setVisibleCount] = useState<number>(10); // 현재 보이는 물품 개수
 
   /**
    *  존재하는 물품의 카테고리의 목록을 뽑아서 배열로 만듦
@@ -89,7 +88,7 @@ export default function RentalContent({items}: { items: RentableItem[] }) {
    */
   const onChangeSearch: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setSearchInput(e.target.value);
-    setVisibleCount(9);
+    setVisibleCount(10);
   };
 
   /**
@@ -98,8 +97,17 @@ export default function RentalContent({items}: { items: RentableItem[] }) {
    */
   const onChangeCategory: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
     setSelectedCategory(e.target.value);
-    setVisibleCount(9);
+    setVisibleCount(10);
   };
+
+  /**
+   * 무한스크롤 Ref
+   */
+  const observerRef = useInfiniteScroll({
+    onIntersect: () => {
+      setVisibleCount((prev) => prev + 5)
+    },
+  });
 
   return (
       <Card>
@@ -192,7 +200,8 @@ export default function RentalContent({items}: { items: RentableItem[] }) {
         </TableContainer>
 
         {filteredItems.length > 0 && canLoadMore && (
-            <LoadMoreWrapper>
+            <>
+              {/*<LoadMoreWrapper>
               <LoadMoreButton
                   onClick={() => {
                     setVisibleCount((prev) => prev + 10);
@@ -200,7 +209,9 @@ export default function RentalContent({items}: { items: RentableItem[] }) {
               >
                 {`Load More (${visibleItems.length} / ${filteredItems.length + 1})`}
               </LoadMoreButton>
-            </LoadMoreWrapper>
+            </LoadMoreWrapper>*/}
+              <div ref={observerRef} style={{height: '10px'}}/>
+            </>
         )}
       </Card>
   );
