@@ -1,3 +1,6 @@
+"use server";
+
+import { serverOnly } from "./axios.server";
 import { axiosInstance } from "./axiosInstance";
 
 export async function SignupApi(data: any) {
@@ -12,10 +15,12 @@ export async function SignupApi(data: any) {
 }
 
 export async function SendEmailCode(email: any) {
+  console.log("API_INTERNAL_URL:", process.env.API_INTERNAL_URL);
+
   console.log("api on", email);
   try {
-    const res = await axiosInstance
-      .post("api/send-code", { email: email })
+    const res = await serverOnly
+      .post("/api/send-code", { email: email })
       .then((res) => {
         console.log("res : ", res.data);
       });
