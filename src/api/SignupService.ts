@@ -21,6 +21,7 @@ export async function SendEmailCode(email: any) {
       .post("/api/send-code", { email: email })
       .then((res) => {
         console.log("res : ", res.data);
+        return res.data;
       });
   } catch (err) {
     console.log("err : ", err);

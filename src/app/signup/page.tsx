@@ -23,7 +23,7 @@ import {
   Title,
   TitleWrapper
 } from "@/style/SignupStyle";
-import { SignupInterface } from "@/types/SignupInterface";
+import { SignupInterface, SignupValedInterface } from "@/types/SignupInterface";
 import { useEffect, useState } from "react";
 
 export default function SignUpScreen() {
@@ -36,13 +36,63 @@ export default function SignUpScreen() {
     position: ""
   });
   const [registerWay, setRegisterWay] = useState<number>(0); // 1 automatic, 2 manual
+  // 조건부 검증
+  const [check, setCheck] = useState<SignupValedInterface>({
+    isCorrectPw: false,
+    isCheckPw: false,
+    isCheckCode: false,
+    isCorrectEmail: false
+  });
   const [code, setCode] = useState<string>("");
+  const [codeApi, setCodeApi] = useState<string>("");
   const [samePw, setSamePw] = useState<string>("");
 
   useEffect(() => {
     console.log(userinfo);
     return () => {};
   }, [userinfo]);
+
+  useEffect(() => {
+    console.log(check);
+    return () => {};
+  }, [check]);
+
+  /**
+   *  검증 확인 기능
+   * @param type 0 이메일 1 패스워드 2 패스워드 동일 3 코드확인
+   * @param value 입력 데이터
+   */
+  function checkVaild(type: number, value: any) {
+    switch (type) {
+      case 0: // email vaild check
+        const emailRegEx = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (emailRegEx.test(value)) {
+          setCheck({ ...check, isCorrectEmail: true });
+        } else {
+          setCheck({ ...check, isCorrectEmail: false });
+        }
+      case 1: // pw vaild check
+        const pwRegEx =
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#.~_-])[A-Za-z\d@$!%*?&#.~_-]{8,20}$/;
+        if (pwRegEx.test(value)) {
+          setCheck({ ...check, isCorrectPw: true });
+        } else {
+          setCheck({ ...check, isCorrectPw: false });
+        }
+      case 2: // pw same check
+        if (value == userinfo.pw) {
+          setCheck({ ...check, isCheckPw: true });
+        } else {
+          setCheck({ ...check, isCheckPw: false });
+        }
+      case 3: // code check
+        if (code == codeApi) {
+          setCheck({ ...check, isCheckCode: true });
+        } else {
+          setCheck({ ...check, isCheckCode: false });
+        }
+    }
+  }
 
   return (
     <SignUpContainer>
@@ -84,6 +134,7 @@ export default function SignUpScreen() {
                 value={userinfo.email}
                 onChange={(e) => {
                   setUserInfo({ ...userinfo, email: e.target.value });
+                  checkVaild(0, e.target.value);
                 }}
                 placeholder="user@company.email"
               />
@@ -100,7 +151,14 @@ export default function SignUpScreen() {
           <FormWrapper>
             <FormTitle>이메일 인증 코드</FormTitle>
             <FormRow>
-              <FormInput type="text" placeholder="이메일로 전송된 코드 입력" />
+              <FormInput
+                type="text"
+                value={code}
+                onChange={(e) => {
+                  setCode(e.target.value);
+                }}
+                placeholder="이메일로 전송된 코드 입력"
+              />
               <FormButton type="button">확인</FormButton>
             </FormRow>
           </FormWrapper>

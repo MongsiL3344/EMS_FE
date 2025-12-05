@@ -17,4 +17,5 @@ export interface SignupValedInterface {
   isCorrectPw: boolean;
   isCheckPw: boolean;
   isCheckCode: boolean;
+  isCorrectEmail: boolean;
 }
