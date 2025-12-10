@@ -21,7 +21,8 @@ import {
   SubmitButton,
   SubTitle,
   Title,
-  TitleWrapper
+  TitleWrapper,
+  WarningText
 } from "@/style/SignupStyle";
 import { SignupInterface, SignupValedInterface } from "@/types/SignupInterface";
 import { useEffect, useState } from "react";
@@ -71,6 +72,7 @@ export default function SignUpScreen() {
         } else {
           setCheck({ ...check, isCorrectEmail: false });
         }
+        break;
       case 1: // pw vaild check
         const pwRegEx =
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#.~_-])[A-Za-z\d@$!%*?&#.~_-]{8,20}$/;
@@ -79,18 +81,21 @@ export default function SignUpScreen() {
         } else {
           setCheck({ ...check, isCorrectPw: false });
         }
+        break;
       case 2: // pw same check
         if (value == userinfo.pw) {
           setCheck({ ...check, isCheckPw: true });
         } else {
           setCheck({ ...check, isCheckPw: false });
         }
+        break;
       case 3: // code check
         if (code == codeApi) {
           setCheck({ ...check, isCheckCode: true });
         } else {
           setCheck({ ...check, isCheckCode: false });
         }
+        break;
     }
   }
 
@@ -147,6 +152,10 @@ export default function SignUpScreen() {
                 인증번호 발송
               </FormButton>
             </FormRow>
+            {(userinfo.email.length > 0 && check.isCorrectEmail == false) ==
+              true && (
+              <WarningText>유효하지 않은 이메일 형식입니다.</WarningText>
+            )}
           </FormWrapper>
           <FormWrapper>
             <FormTitle>이메일 인증 코드</FormTitle>
@@ -159,8 +168,20 @@ export default function SignUpScreen() {
                 }}
                 placeholder="이메일로 전송된 코드 입력"
               />
-              <FormButton type="button">확인</FormButton>
+              <FormButton
+                type="button"
+                onClick={() => {
+                  checkVaild(3, code);
+                }}
+              >
+                확인
+              </FormButton>
             </FormRow>
+            {(code.length > 0 && check.isCheckCode == false) == true && (
+              <WarningText>
+                유효하지 않은 코드입니다. 다시 확인해주세요.
+              </WarningText>
+            )}
           </FormWrapper>
           <FormWrapper>
             <FormTitle>비밀번호</FormTitle>
@@ -170,6 +191,7 @@ export default function SignUpScreen() {
                 value={userinfo.pw}
                 onChange={(e) => {
                   setUserInfo({ ...userinfo, pw: e.target.value });
+                  checkVaild(1, e.target.value);
                 }}
                 placeholder="비밀번호를 입력하세요"
               />
@@ -177,6 +199,9 @@ export default function SignUpScreen() {
             <InputHelpText>
               8~32자리, 영문, 숫자, 특수문자를 포함해야합니다.
             </InputHelpText>
+            {(userinfo.pw.length > 0 && check.isCorrectPw == false) == true && (
+              <WarningText>유효하지 않은 형식의 비밀번호입니다.</WarningText>
+            )}
           </FormWrapper>
           <FormWrapper>
             <FormTitle>비밀번호 확인</FormTitle>
@@ -186,6 +211,7 @@ export default function SignUpScreen() {
                 value={samePw}
                 onChange={(e) => {
                   setSamePw(e.target.value);
+                  checkVaild(2, e.target.value);
                 }}
                 placeholder="입력하신 비밀번호를 확인해주세요"
               />

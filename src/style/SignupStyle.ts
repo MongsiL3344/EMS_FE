@@ -277,3 +277,10 @@ export const SucessButton = styled(SelectButton)`
       0 0 0 4px #1173d4;
   }
 `;
+
+export const WarningText = styled.span`
+  color: #e60000; /* vivid red */
+  font-size: 0.75rem; /* small text */
+  margin-top: 0.25rem; /* 4px */
+  line-height: 1rem;
+`;
