@@ -26,6 +26,7 @@ import {
 } from "@/style/SignupStyle";
 import { SignupInterface, SignupValedInterface } from "@/types/SignupInterface";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SignUpScreen() {
   const [userinfo, setUserInfo] = useState<SignupInterface>({
@@ -44,14 +45,25 @@ export default function SignUpScreen() {
     isCheckCode: false,
     isCorrectEmail: false
   });
+  // 받은 코드
   const [code, setCode] = useState<string>("");
+  // 입력한 코드
   const [codeApi, setCodeApi] = useState<string>("");
   const [samePw, setSamePw] = useState<string>("");
+  const router = useRouter();
 
   useEffect(() => {
     console.log(userinfo);
     return () => {};
   }, [userinfo]);
+  useEffect(() => {
+    console.log(code);
+    return () => {};
+  }, [code]);
+  useEffect(() => {
+    console.log(codeApi);
+    return () => {};
+  }, [codeApi]);
 
   useEffect(() => {
     console.log(check);
@@ -90,12 +102,20 @@ export default function SignUpScreen() {
         }
         break;
       case 3: // code check
-        if (code == codeApi) {
+        if (code == value) {
           setCheck({ ...check, isCheckCode: true });
         } else {
           setCheck({ ...check, isCheckCode: false });
         }
         break;
+    }
+  }
+
+  async function codeValid() {
+    try {
+      setCode(await SendEmailCode(userinfo.email));
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -146,7 +166,7 @@ export default function SignUpScreen() {
               <FormButton
                 type="button"
                 onClick={() => {
-                  SendEmailCode(userinfo.email);
+                  codeValid();
                 }}
               >
                 인증번호 발송
@@ -162,16 +182,16 @@ export default function SignUpScreen() {
             <FormRow>
               <FormInput
                 type="text"
-                value={code}
+                value={codeApi}
                 onChange={(e) => {
-                  setCode(e.target.value);
+                  setCodeApi(e.target.value);
                 }}
                 placeholder="이메일로 전송된 코드 입력"
               />
               <FormButton
                 type="button"
                 onClick={() => {
-                  checkVaild(3, code);
+                  checkVaild(3, codeApi);
                 }}
               >
                 확인
@@ -216,6 +236,11 @@ export default function SignUpScreen() {
                 placeholder="입력하신 비밀번호를 확인해주세요"
               />
             </FormRow>
+            {(samePw.length > 0 && check.isCheckPw == false) == true && (
+              <WarningText>
+                비밀번호가 일치하지 않습니다. 확인해주세요.
+              </WarningText>
+            )}
           </FormWrapper>
           <FormWrapper>
             <FormTitle>이름</FormTitle>
@@ -271,8 +296,9 @@ export default function SignUpScreen() {
           </FormWrapper>
           <SubmitButton
             type="button"
-            onClick={() => {
-              SignupApi(userinfo);
+            onClick={async () => {
+              await SignupApi(userinfo);
+              router.push("/signupcheck");
             }}
           >
             회원가입 신청

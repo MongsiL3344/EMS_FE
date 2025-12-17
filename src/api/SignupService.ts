@@ -20,9 +20,10 @@ export async function SendEmailCode(email: any) {
     const res = await serverOnly
       .post("/api/send-code", { email: email })
       .then((res) => {
-        console.log("res : ", res.data);
-        return res.data;
+        console.log("res : ", res.data.code);
+        return res.data.code;
       });
+    return res;
   } catch (err) {
     console.log("err : ", err);
   }

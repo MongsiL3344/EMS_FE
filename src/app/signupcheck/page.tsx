@@ -9,8 +9,10 @@ import {
   Title,
   TitleWrapper
 } from "@/style/SignupStyle";
+import { useRouter } from "next/navigation";
 
 export default function SignUpCheckScreen() {
+  const route = useRouter();
   return (
     <SignUpContainer>
       <SignUpWrapper>
@@ -23,7 +25,14 @@ export default function SignUpCheckScreen() {
             </SubTitle>
             <SubTitle></SubTitle>
           </TitleWrapper>
-          <SucessButton type="button">로그인 화면으로 전환</SucessButton>
+          <SucessButton
+            type="button"
+            onClick={() => {
+              route.push("/login");
+            }}
+          >
+            로그인 화면으로 전환
+          </SucessButton>
         </SuccessCard>
       </SignUpWrapper>
     </SignUpContainer>
