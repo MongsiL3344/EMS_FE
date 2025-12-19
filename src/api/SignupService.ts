@@ -3,10 +3,14 @@
 import { serverOnly } from "./axios.server";
 import { axiosInstance } from "./axiosInstance";
 
-export async function SignupApi(data: any) {
+export async function SignupApi(data: any, type: number) {
+  const payload = {
+    ...data,
+    type
+  };
   console.log("api on", data);
   try {
-    const res = await axiosInstance.post("api/signup", data).then((res) => {
+    const res = await axiosInstance.post("api/signup", payload).then((res) => {
       console.log("res : ", res.data);
     });
   } catch (err) {
