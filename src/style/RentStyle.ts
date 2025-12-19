@@ -1,5 +1,4 @@
 import styled, {css} from "styled-components";
-import {RentableItem} from "@/types/RentInterface";
 
 export const PageLayout = styled.div`
   display: flex;
@@ -42,11 +41,15 @@ export const FilterRow = styled.div`
 export const SearchWrapper = styled.div`
   flex: 1;
   min-width: 220px;
+  position: relative;
+  display: flex;
+  align-items: center;
 `;
 
 export const SearchInput = styled.input`
   width: 100%;
   padding: 12px 16px;
+  padding-right: 44px;
   border-radius: 12px;
   border: 1px solid #e2e8f0;
   background: #f8fafc;
@@ -57,6 +60,36 @@ export const SearchInput = styled.input`
   &:focus {
     border-color: #007aff;
     box-shadow: 0 0 0 1px rgba(0, 122, 255, 0.2);
+  }
+`;
+
+export const SearchIconButton = styled.button`
+  position: absolute;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  color: #64748b;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #007aff;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: #cbd5e1;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
   }
 `;
 
@@ -229,161 +262,3 @@ export const EmptyRow = styled.tr`
     font-weight: 500;
   }
 `;
-
-// --- Mock Data ---
-
-export const MOCK_ITEMS: RentableItem[] = [
-  {
-    id: 1,
-    name: "빔프로젝터",
-    category: "전자",
-    currentQuantity: 3,
-    totalQuantity: 5,
-    maxRentCount: 1,
-    status: true
-  },
-  {
-    id: 2,
-    name: "노트북",
-    category: "전자",
-    currentQuantity: 0,
-    totalQuantity: 10,
-    maxRentCount: 1,
-    status: false
-  },
-  {
-    id: 3,
-    name: "DSLR 카메라",
-    category: "전자",
-    currentQuantity: 2,
-    totalQuantity: 2,
-    maxRentCount: 1,
-    status: true
-  },
-  {
-    id: 4,
-    name: "무선 마이크 세트",
-    category: "전자",
-    currentQuantity: 4,
-    totalQuantity: 4,
-    maxRentCount: 2,
-    status: true
-  },
-  {
-    id: 5,
-    name: "삼각대",
-    category: "중형",
-    currentQuantity: 1,
-    totalQuantity: 3,
-    maxRentCount: 1,
-    status: true
-  },
-  {
-    id: 6,
-    name: "보조배터리",
-    category: "전자",
-    currentQuantity: 10,
-    totalQuantity: 10,
-    maxRentCount: 5,
-    status: true
-  },
-  {
-    id: 7,
-    name: "HDMI 케이블",
-    category: "전자",
-    currentQuantity: 8,
-    totalQuantity: 15,
-    maxRentCount: 3,
-    status: true
-  },
-  {
-    id: 8,
-    name: "4구 멀티탭",
-    category: "전자",
-    currentQuantity: 5,
-    totalQuantity: 5,
-    maxRentCount: 2,
-    status: true
-  },
-  {
-    id: 9,
-    name: "접이식 책상",
-    category: "대형",
-    currentQuantity: 2,
-    totalQuantity: 4,
-    maxRentCount: 1,
-    status: true
-  },
-  {
-    id: 10,
-    name: "접이식 의자",
-    category: "소형",
-    currentQuantity: 20,
-    totalQuantity: 40,
-    maxRentCount: 5,
-    status: true
-  },
-  {
-    id: 12,
-    name: "화이트보드 마카 세트",
-    category: "소모품",
-    currentQuantity: 50,
-    totalQuantity: 100,
-    maxRentCount: 10,
-    status: true
-  },
-  {
-    id: 13,
-    name: "화이트보드 마카 세트",
-    category: "소모품",
-    currentQuantity: 50,
-    totalQuantity: 100,
-    maxRentCount: 10,
-    status: true
-  },
-  {
-    id: 14,
-    name: "화이트보드 마카 세트",
-    category: "소모품",
-    currentQuantity: 50,
-    totalQuantity: 100,
-    maxRentCount: 10,
-    status: true
-  },
-  {
-    id: 15,
-    name: "화이트보드 마카 세트",
-    category: "소모품",
-    currentQuantity: 50,
-    totalQuantity: 100,
-    maxRentCount: 10,
-    status: true
-  },
-  {
-    id: 16,
-    name: "화이트보드 마카 세트",
-    category: "소모품",
-    currentQuantity: 50,
-    totalQuantity: 100,
-    maxRentCount: 10,
-    status: true
-  },
-  {
-    id: 17,
-    name: "화이트보드 마카 세트",
-    category: "소모품",
-    currentQuantity: 50,
-    totalQuantity: 100,
-    maxRentCount: 10,
-    status: true
-  },
-  {
-    id: 18,
-    name: "화이트보드 마카 세트",
-    category: "소모품",
-    currentQuantity: 50,
-    totalQuantity: 100,
-    maxRentCount: 10,
-    status: true
-  }
-];

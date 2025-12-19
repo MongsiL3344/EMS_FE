@@ -1,23 +1,46 @@
 "use client";
 
-import {useState} from "react";
+import {useState, useEffect} from "react";
+import {useRouter} from "next/navigation";
+import toast from "react-hot-toast";
 import RentalList from "@/components/userMainPage/RentalList";
 import Sidebar from "@/components/userMainPage/Sidebar";
 import Header from "@/components/userMainPage/Header";
-import {useCheckSession} from "@/api/authHandler";
+import {getSessionStatusAction} from "@/api/auth/auth.Server";
 import {
   allItems,
   PageLayout,
   ContentArea,
   MainContainer,
-  PageTitle,
+  PageTitle
 } from "@/style/UserMainPageStyle";
 import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
 
 /* 유저 메인 페이지 컴포넌트 */
 export default function UserMainScreen() {
-  useCheckSession(); // usermainpage 접근 시 세션 확인
+  const router = useRouter();
 
+  /**
+   * 세션 체크 함수
+   * 세션이 유효하지 않으면 로그인 페이지로 이동
+   */
+  async function checkSession() {
+    try {
+      const data = await getSessionStatusAction();
+      if (!data.ok) {
+        toast.error("로그아웃되었습니다\n다시 로그인해주세요");
+        router.replace("/login");
+      }
+    } catch {
+      toast.error("로그아웃되었습니다\n다시 로그인해주세요");
+      router.replace("/login");
+    }
+  }
+
+  // 페이지가 마운트 되면 checkSession 실행
+  useEffect(() => {
+    checkSession();
+  }, []);
   /**
    * 임시데이터 분류 정렬
    * todo : (백엔드 코드랑 디비 테이블 완성되면 변경 예정)
@@ -40,18 +63,13 @@ export default function UserMainScreen() {
   const visibleRentedItems = rentedItems.slice(0, visibleRentedCount); // 보여주고있는 목록의 개수, 배열 0번부터 visibleRentedCount-1번까지
   const hasMoreRented = visibleRentedCount < rentedItems.length; // 대여중 항목의 개수가 보여지고있는 물품의 개수보다 많으면 true
 
-  /* 보여주고있는 물품 개수 5 증가시키기 */
-  const handleLoadMore = () => {
-    setVisibleRentedCount((prev) => prev + 5);
-  };
-
   /**
    * 무한 스크롤 감시 Ref
    */
-  const observerRef = useInfiniteScroll({
+  const loadMoreRef = useInfiniteScroll({
     onIntersect: () => {
-      setVisibleRentedCount((prev) => prev + 5)
-    },
+      setVisibleRentedCount((prev) => prev + 5);
+    }
   });
 
   return (
@@ -68,7 +86,7 @@ export default function UserMainScreen() {
                     title="연체"
                     items={overdueItems}
                     rentalStatus="overdue"
-                    cardHref="/rentals"
+                    cardHref="/return"
                 />
             )}
 
@@ -78,7 +96,7 @@ export default function UserMainScreen() {
                     title="만기 임박"
                     items={dueSoonItems}
                     rentalStatus="dueSoon"
-                    cardHref="/rentals"
+                    cardHref="/return"
                 />
             )}
 
@@ -89,15 +107,10 @@ export default function UserMainScreen() {
                       title="대여 중"
                       items={visibleRentedItems}
                       rentalStatus="rented"
-                      cardHref="/rentals"
+                      cardHref="/return"
                   />
                   {hasMoreRented && (
-                      <>
-                        {/*<LoadMoreButton type="button" onClick={handleLoadMore}>
-                        Load More
-                      </LoadMoreButton>*/}
-                        <div ref={observerRef} style={{height: '10px'}}/>
-                      </>
+                      <div ref={loadMoreRef} style={{height: "10px"}}/>
                   )}
                 </>
             )}
