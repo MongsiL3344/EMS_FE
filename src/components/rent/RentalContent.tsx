@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useMemo, useState, useCallback, useEffect} from "react";
+import React, {useMemo, useState, useCallback, useEffect, useRef} from "react";
 import toast from "react-hot-toast";
 import {rentItemAction, getItemsAction} from "@/api/rent/rent.Server";
 import {
@@ -22,7 +22,16 @@ import {
   TableBodyCellRight,
   StatusPill,
   RentButton,
-  EmptyRow
+  EmptyRow,
+  ModalOverlay,
+  ModalContainer,
+  ModalHeader,
+  ModalContent,
+  ModalInputWrapper,
+  ModalInput,
+  ModalInputLabel,
+  ModalFooter,
+  ModalButton
 } from "@/style/RentStyle";
 import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
 import type {RentableItem} from "@/types/RentInterface";
@@ -33,25 +42,48 @@ const CATEGORY_OPTIONS = ["대형", "중형", "소형", "전자", "소모품"];
 export default function RentalContent() {
   const [items, setItems] = useState<RentableItem[]>([]);
   const [loading, setLoading] = useState(false);
+  const isLoadingRef = useRef(false); // 중복 불러오기 방지용 Ref
   const [searchInput, setSearchInput] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("ALL");
-  const [visibleCount, setVisibleCount] = useState<number>(10);
+  const [hasMore, setHasMore] = useState(false);
+
+  // 모달 관련 state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<RentableItem | null>(null);
+  const [rentQuantity, setRentQuantity] = useState(1);
 
   /**
    * 물품 리스트 조회시 최종적으로 호출되는 함수
    * 서버함수인 getItemsAction을 검색어와 카테고리로 조회하도록 호출
-   * @returns setItems : RentableItem[]
+   * visibleCount를 offset으로 사용
    */
-  const fetchItems = useCallback(async (keyword: string, category: string) => {
+  const fetchItems = useCallback(async (keyword: string, category: string, offset: number) => {
+    if (isLoadingRef.current) return; // 이미 로딩 중이면 불러오지않음
+
+    isLoadingRef.current = true;
     setLoading(true);
     try {
-      const result = await getItemsAction(keyword, category);
-      setItems(result);
+      // 10 + 1개 요청 (다음 페이지 존재 여부 확인용)
+      const limit = 11;
+      const result = await getItemsAction(keyword, category, offset, limit);
+
+      // 반환값이 11개면 목록이 더 있다는 뜻 -> hasMore = true
+      setHasMore(result.length === limit);
+
+      // 반환값에 상관없이 10개까지만 보여줌
+      const newItems = result.slice(0, 10);
+
+      // offset이 0이면 새로고침이므로 전체를 교체하고, 그렇지 않으면 이전 목록에 추가
+      if (offset === 0) {
+        setItems(newItems);
+      } else {
+        setItems((prev) => [...prev, ...newItems]);
+      }
     } catch (error) {
       console.error("물품 조회 실패:", error);
-      setItems([]);
     } finally {
       setLoading(false);
+      isLoadingRef.current = false;
     }
   }, []);
 
@@ -59,27 +91,71 @@ export default function RentalContent() {
    * 초기 로딩 시 물품 목록 조회
    */
   useEffect(() => {
-    fetchItems("", "ALL");
+    fetchItems("", "ALL", 0);
   }, [fetchItems]);
 
   /**
    *  현재 보이는 물품의 목록
    */
-  const visibleItems = useMemo(
-      () => items.slice(0, visibleCount),
-      [items, visibleCount]
-  );
 
   // 더 불러올 목록이 있으면 true
-  const canLoadMore = visibleCount < items.length;
 
   /**
-   * 대여버튼 onClick 함수
+   * 대여 모달 열기
    */
-  const handleRent = async (itemId: number, quantity: number) => {
+  const handleRentClick = (item: RentableItem) => {
+    setSelectedItem(item);
+    setRentQuantity(1);
+    setIsModalOpen(true);
+  };
+
+  /**
+   * 대여 모달 닫기
+   */
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedItem(null);
+    setRentQuantity(1);
+  };
+
+  /**
+   * 대여 수량 변경 핸들러
+   */
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = parseInt(e.target.value, 10);
+    if (Number.isNaN(val) || val < 1) {
+      setRentQuantity(1);
+      return;
+    }
+
+    if (selectedItem) {
+      // 1회 대여 가능 최대 수량과 현재 재고 중 작은 값이 최대값
+      const maxRentable = Math.min(
+          selectedItem.maxQuantityPerRent,
+          selectedItem.currentQuantity
+      );
+
+      if (val > maxRentable) {
+        setRentQuantity(maxRentable);
+        toast.error(`최대 ${maxRentable}개까지 대여 가능합니다.`);
+      } else {
+        setRentQuantity(val);
+      }
+    }
+  };
+
+  /**
+   * 최종 대여 확정
+   */
+  const handleConfirmRent = async () => {
+    if (!selectedItem) return;
+
     try {
-      await rentItemAction(itemId, quantity); //TODO : 각 물품별 아이템id랑 빌릴 개수 입력받아야함
+      await rentItemAction(selectedItem.id, rentQuantity);
       toast.success("대여 성공");
+      handleCloseModal();
+      // 목록 갱신을 위해 현재 검색 조건으로 다시 조회
+      fetchItems(searchInput, selectedCategory, 0);
     } catch {
       toast.error("대여 실패");
     }
@@ -90,8 +166,7 @@ export default function RentalContent() {
    * state로 들고있는 검색어와 카테고리 둘 다 포함해서 fetchItems 호출
    */
   const handleSearch = useCallback(() => {
-    setVisibleCount(10);
-    fetchItems(searchInput, selectedCategory);
+    fetchItems(searchInput, selectedCategory, 0);
   }, [searchInput, selectedCategory, fetchItems]);
 
   /**
@@ -111,8 +186,7 @@ export default function RentalContent() {
   ) => {
     const newCategory = e.target.value;
     setSelectedCategory(newCategory);
-    setVisibleCount(10);
-    fetchItems(searchInput, newCategory);
+    fetchItems(searchInput, newCategory, 0);
   };
 
   /**
@@ -120,7 +194,9 @@ export default function RentalContent() {
    */
   const loadMoreRef = useInfiniteScroll({
     onIntersect: () => {
-      setVisibleCount((prev) => prev + 5);
+      if (hasMore && !loading) {
+        fetchItems(searchInput, selectedCategory, items.length);
+      }
     },
     isLoading: loading
   });
@@ -186,7 +262,7 @@ export default function RentalContent() {
             </TableHeadRow>
             </thead>
             <tbody>
-            {visibleItems.map((item) => {
+            {items.map((item) => {
               // 재고가 0이거나 상태가 false면 대여 불가
               const isRentable = item.isRentable && item.currentQuantity > 0;
 
@@ -205,7 +281,7 @@ export default function RentalContent() {
                     <TableBodyCellRight>
                       <RentButton
                           disabled={!isRentable}
-                          onClick={async () => handleRent(item.id, 1)}
+                          onClick={() => handleRentClick(item)}
                           aria-disabled={!isRentable}
                       >
                         {"대여"}
@@ -215,7 +291,7 @@ export default function RentalContent() {
               );
             })}
 
-            {visibleItems.length === 0 && (
+            {items.length === 0 && (
                 <EmptyRow>
                   <td colSpan={5}>
                     {searchInput
@@ -228,8 +304,44 @@ export default function RentalContent() {
           </Table>
         </TableContainer>
 
-        {items.length > 0 && canLoadMore && (
+        {items.length > 0 && hasMore && (
             <div ref={loadMoreRef} style={{height: "10px"}}/>
+        )}
+
+        {isModalOpen && selectedItem && (
+            <ModalOverlay onClick={handleCloseModal}>
+              <ModalContainer onClick={(e) => e.stopPropagation()}>
+                <ModalHeader>물품 대여</ModalHeader>
+                <ModalContent>
+                  <p>
+                    <strong>{selectedItem.name}</strong>을(를) {rentQuantity}개
+                    대여하시겠습니까?
+                  </p>
+                  <ModalInputWrapper>
+                    <ModalInputLabel>대여 수량:</ModalInputLabel>
+                    <ModalInput
+                        type="number"
+                        min={1}
+                        max={Math.min(
+                            selectedItem.maxQuantityPerRent,
+                            selectedItem.currentQuantity
+                        )}
+                        value={rentQuantity}
+                        onChange={handleQuantityChange}
+                    />
+                    <ModalInputLabel>개</ModalInputLabel>
+                  </ModalInputWrapper>
+                </ModalContent>
+                <ModalFooter>
+                  <ModalButton $variant="secondary" onClick={handleCloseModal}>
+                    취소
+                  </ModalButton>
+                  <ModalButton $variant="primary" onClick={handleConfirmRent}>
+                    확인
+                  </ModalButton>
+                </ModalFooter>
+              </ModalContainer>
+            </ModalOverlay>
         )}
       </Card>
   );

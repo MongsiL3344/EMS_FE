@@ -262,3 +262,112 @@ export const EmptyRow = styled.tr`
     font-weight: 500;
   }
 `;
+
+export const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+export const ModalContainer = styled.div`
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  animation: slideUp 0.3s ease-out;
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
+
+export const ModalHeader = styled.h2`
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 16px;
+`;
+
+export const ModalContent = styled.div`
+  margin-bottom: 24px;
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.5;
+`;
+
+export const ModalInputWrapper = styled.div`
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const ModalInput = styled.input`
+  width: 80px;
+  padding: 8px 12px;
+  background-color: #4a4947ff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-align: center;
+  outline: none;
+
+  &:focus {
+    border-color: #3b82f6;
+  }
+`;
+
+export const ModalInputLabel = styled.span`
+  font-size: 0.875rem;
+  color: #64748b;
+`;
+
+export const ModalFooter = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+`;
+
+export const ModalButton = styled.button<{ $variant?: 'primary' | 'secondary' }>`
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+
+  ${({ $variant }) =>
+    $variant === 'secondary'
+      ? css`
+          background: #f1f5f9;
+          color: #64748b;
+          &:hover {
+            background: #e2e8f0;
+            color: #475569;
+          }
+        `
+      : css`
+          background: #3b82f6;
+          color: white;
+          &:hover {
+            background: #2563eb;
+          }
+        `}
+`;
