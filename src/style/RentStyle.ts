@@ -1,5 +1,4 @@
 import styled, {css} from "styled-components";
-import {RentableItem} from "@/types/RentInterface";
 
 export const PageLayout = styled.div`
   display: flex;
@@ -42,11 +41,15 @@ export const FilterRow = styled.div`
 export const SearchWrapper = styled.div`
   flex: 1;
   min-width: 220px;
+  position: relative;
+  display: flex;
+  align-items: center;
 `;
 
 export const SearchInput = styled.input`
   width: 100%;
   padding: 12px 16px;
+  padding-right: 44px;
   border-radius: 12px;
   border: 1px solid #e2e8f0;
   background: #f8fafc;
@@ -57,6 +60,36 @@ export const SearchInput = styled.input`
   &:focus {
     border-color: #007aff;
     box-shadow: 0 0 0 1px rgba(0, 122, 255, 0.2);
+  }
+`;
+
+export const SearchIconButton = styled.button`
+  position: absolute;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  color: #64748b;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #007aff;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: #cbd5e1;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
   }
 `;
 
@@ -230,160 +263,111 @@ export const EmptyRow = styled.tr`
   }
 `;
 
-// --- Mock Data ---
+export const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
 
-export const MOCK_ITEMS: RentableItem[] = [
-  {
-    id: 1,
-    name: "빔프로젝터",
-    category: "전자",
-    currentQuantity: 3,
-    totalQuantity: 5,
-    maxRentCount: 1,
-    status: true
-  },
-  {
-    id: 2,
-    name: "노트북",
-    category: "전자",
-    currentQuantity: 0,
-    totalQuantity: 10,
-    maxRentCount: 1,
-    status: false
-  },
-  {
-    id: 3,
-    name: "DSLR 카메라",
-    category: "전자",
-    currentQuantity: 2,
-    totalQuantity: 2,
-    maxRentCount: 1,
-    status: true
-  },
-  {
-    id: 4,
-    name: "무선 마이크 세트",
-    category: "전자",
-    currentQuantity: 4,
-    totalQuantity: 4,
-    maxRentCount: 2,
-    status: true
-  },
-  {
-    id: 5,
-    name: "삼각대",
-    category: "중형",
-    currentQuantity: 1,
-    totalQuantity: 3,
-    maxRentCount: 1,
-    status: true
-  },
-  {
-    id: 6,
-    name: "보조배터리",
-    category: "전자",
-    currentQuantity: 10,
-    totalQuantity: 10,
-    maxRentCount: 5,
-    status: true
-  },
-  {
-    id: 7,
-    name: "HDMI 케이블",
-    category: "전자",
-    currentQuantity: 8,
-    totalQuantity: 15,
-    maxRentCount: 3,
-    status: true
-  },
-  {
-    id: 8,
-    name: "4구 멀티탭",
-    category: "전자",
-    currentQuantity: 5,
-    totalQuantity: 5,
-    maxRentCount: 2,
-    status: true
-  },
-  {
-    id: 9,
-    name: "접이식 책상",
-    category: "대형",
-    currentQuantity: 2,
-    totalQuantity: 4,
-    maxRentCount: 1,
-    status: true
-  },
-  {
-    id: 10,
-    name: "접이식 의자",
-    category: "소형",
-    currentQuantity: 20,
-    totalQuantity: 40,
-    maxRentCount: 5,
-    status: true
-  },
-  {
-    id: 12,
-    name: "화이트보드 마카 세트",
-    category: "소모품",
-    currentQuantity: 50,
-    totalQuantity: 100,
-    maxRentCount: 10,
-    status: true
-  },
-  {
-    id: 13,
-    name: "화이트보드 마카 세트",
-    category: "소모품",
-    currentQuantity: 50,
-    totalQuantity: 100,
-    maxRentCount: 10,
-    status: true
-  },
-  {
-    id: 14,
-    name: "화이트보드 마카 세트",
-    category: "소모품",
-    currentQuantity: 50,
-    totalQuantity: 100,
-    maxRentCount: 10,
-    status: true
-  },
-  {
-    id: 15,
-    name: "화이트보드 마카 세트",
-    category: "소모품",
-    currentQuantity: 50,
-    totalQuantity: 100,
-    maxRentCount: 10,
-    status: true
-  },
-  {
-    id: 16,
-    name: "화이트보드 마카 세트",
-    category: "소모품",
-    currentQuantity: 50,
-    totalQuantity: 100,
-    maxRentCount: 10,
-    status: true
-  },
-  {
-    id: 17,
-    name: "화이트보드 마카 세트",
-    category: "소모품",
-    currentQuantity: 50,
-    totalQuantity: 100,
-    maxRentCount: 10,
-    status: true
-  },
-  {
-    id: 18,
-    name: "화이트보드 마카 세트",
-    category: "소모품",
-    currentQuantity: 50,
-    totalQuantity: 100,
-    maxRentCount: 10,
-    status: true
+export const ModalContainer = styled.div`
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  animation: slideUp 0.3s ease-out;
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-];
+`;
+
+export const ModalHeader = styled.h2`
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 16px;
+`;
+
+export const ModalContent = styled.div`
+  margin-bottom: 24px;
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.5;
+`;
+
+export const ModalInputWrapper = styled.div`
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const ModalInput = styled.input`
+  width: 80px;
+  padding: 8px 12px;
+  background-color: #4a4947ff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-align: center;
+  outline: none;
+
+  &:focus {
+    border-color: #3b82f6;
+  }
+`;
+
+export const ModalInputLabel = styled.span`
+  font-size: 0.875rem;
+  color: #64748b;
+`;
+
+export const ModalFooter = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+`;
+
+export const ModalButton = styled.button<{ $variant?: 'primary' | 'secondary' }>`
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+
+  ${({ $variant }) =>
+    $variant === 'secondary'
+      ? css`
+          background: #f1f5f9;
+          color: #64748b;
+          &:hover {
+            background: #e2e8f0;
+            color: #475569;
+          }
+        `
+      : css`
+          background: #3b82f6;
+          color: white;
+          &:hover {
+            background: #2563eb;
+          }
+        `}
+`;
