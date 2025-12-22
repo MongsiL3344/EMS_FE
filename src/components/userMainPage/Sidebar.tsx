@@ -3,7 +3,7 @@
 import {useRouter} from "next/navigation";
 import React from "react";
 import {toast} from "react-hot-toast";
-import {logout} from "@/api/authService";
+import {logoutAction} from "@/api/auth/auth.Server";
 import {
   SidebarContainer,
   LogoSection,
@@ -25,7 +25,7 @@ export default function Sidebar({
 
   const handleLogout = async () => {
     try {
-      await logout();
+      await logoutAction();
       toast.success("로그아웃 되었습니다.");
       router.replace("/login");
     } catch (error) {
