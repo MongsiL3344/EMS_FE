@@ -1,5 +1,6 @@
 "use server";
 
+import { error } from "console";
 import { serverOnly } from "./axios.server";
 import { axiosInstance } from "./axiosInstance";
 
@@ -8,11 +9,21 @@ export async function SignupApi(data: any, type: number) {
     ...data,
     type
   };
-  console.log("api on", data);
+  console.log("api on", payload);
   try {
-    const res = await axiosInstance.post("api/signup", payload).then((res) => {
-      console.log("res : ", res.data);
-    });
+    if (type == 1) {
+      const res = await axiosInstance
+        .post("api/signup/auto", payload)
+        .then((res) => {
+          console.log("res : ", res.data);
+        });
+    } else if (type == 2) {
+      const res = await axiosInstance
+        .post("api/signup/manual", payload)
+        .then((res) => {
+          console.log("res : ", res.data);
+        });
+    } else throw error;
   } catch (err) {
     console.log("err : ", err);
   }
